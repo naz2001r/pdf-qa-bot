@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  backend_llm_pdf:
+    build: backend/
+    ports: 
+      - 8000:8000
+    networks:
+      - deploy_network
+    container_name: backend_llm_pdf
+
+  frontend_llm_pdf:
+    build: frontend/
+    depends_on:
+      - backend_llm_pdf
+    ports: 
+        - 8501:8501
+    networks:
+      - deploy_network
+    container_name: frontend_llm_pdf
+
+networks:
+  deploy_network:
+    driver: bridge
