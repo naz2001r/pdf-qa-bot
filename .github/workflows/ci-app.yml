@@ -79,6 +79,9 @@ jobs:
     runs-on: ubuntu-latest
         
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
     - name: Test docker-compose
       uses: cloudposse/github-action-docker-compose-test-run@main
       with:
