@@ -22,7 +22,11 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.8"
-
+    - name: Load secrets
+      uses: oNaiPs/secrets-to-env-action@v1
+      with:
+        secrets: ${{ toJSON(secrets) }}
+        include: TEST_SECRET
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
