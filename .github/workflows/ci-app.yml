@@ -85,4 +85,4 @@ jobs:
     - name: Test docker-compose
       uses: cloudposse/github-action-docker-compose-test-run@main
       with:
-        file: ./docker-compose.yaml
+        file: docker-compose.yaml
