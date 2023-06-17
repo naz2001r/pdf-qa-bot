@@ -43,7 +43,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        cd backend && pytest tests/
+       pytest tests/ --rootdir=backend
     
     
   frontend:
