@@ -9,3 +9,5 @@ langchain
 pypdf 
 openai 
 tiktoken
+python-multipart
+faiss-cpu
