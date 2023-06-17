@@ -2,7 +2,6 @@ from src.models import *
 from fastapi import FastAPI
 from src.routers.chatbot import chatbot_router
 
-
 app = FastAPI(
     title="PDF Chatbot App API",
     description="""FastAPI documentation for PDF Chatbot App""",
@@ -20,3 +19,8 @@ tags_metadata = [
         'descriptions': ' PDF Chatbot for answering to the questions, which releated to PDF files.'
     }
 ]
+
+@app.get("/example")
+async def example():
+    #print(os.environ['TEST_SECRET']) # now not in env var
+    return {"message": 'Hello'}
