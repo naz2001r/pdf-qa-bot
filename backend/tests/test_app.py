@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
 import sys
-sys.path.append('.\\backend\\')
+sys.path.insert(0, './backend/')
 from app import app
 
 client = TestClient(app)
