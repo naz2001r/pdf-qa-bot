@@ -1,8 +1,5 @@
 from fastapi.testclient import TestClient
-
-import sys
-sys.path.insert(0, './backend/')
-from app import app
+from backend.app import app
 
 client = TestClient(app)
 

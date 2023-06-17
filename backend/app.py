@@ -1,6 +1,10 @@
-from src.models import *
 from fastapi import FastAPI
-from src.routers.chatbot import chatbot_router
+try:
+    from src.models import *
+    from src.routers.chatbot import chatbot_router
+except:
+    from backend.src.models import *
+    from backend.src.routers.chatbot import chatbot_router
 
 app = FastAPI(
     title="PDF Chatbot App API",
