@@ -1,11 +1,17 @@
 import os
 import io
-from src.models import *
 from langchain import OpenAI
 from fastapi import APIRouter, UploadFile, File
-from src.pdf_loader import PdfToTextLoader
-from src.vec_db import VectorizeDB
 from langchain.chains import RetrievalQAWithSourcesChain
+
+try:
+    from src.models import *
+    from src.pdf_loader import PdfToTextLoader
+    from src.vec_db import VectorizeDB
+except:
+    from backend.src.models import *
+    from backend.src.pdf_loader import PdfToTextLoader
+    from backend.src.vec_db import VectorizeDB
 
 
 chatbot_router = APIRouter()
