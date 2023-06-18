@@ -36,7 +36,7 @@ class VectorizeDB:
         raise TypeError('Please set retriver before calling it.')
     
     @classmethod
-    def load_df(cls, file_name: str) -> object:
+    def load_db(cls, file_name: str) -> object:
         return pickle.load(open(file_name, 'rb'))
     
     def dump_db(self, file_name: str) -> None:
