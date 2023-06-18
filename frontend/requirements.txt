@@ -1,6 +1,3 @@
 streamlit
+streamlit-chat
 requests
-plotly
-streamlit-aggrid
-pandas
-numpy
