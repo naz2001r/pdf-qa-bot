@@ -1,4 +1,3 @@
-import os
 import pickle
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.faiss import FAISS
@@ -9,7 +8,7 @@ class VectorizeDB:
     A class for vectorizing datasets.
     """
 
-    def __init__(self, openai_key: str):
+    def __init__(self, openai_key: str) -> None:
         """
         Initialize a VectorizeDB object.
 
@@ -21,7 +20,7 @@ class VectorizeDB:
         self.__db = None
         self.__retriever = None
 
-    def vectorize(self, pages: list, extend=False) -> None:
+    def vectorize(self, pages: list, extend: bool = False) -> None:
         """
         Vectorize a list of pages from pdf files and create a vector database.
 
@@ -70,7 +69,7 @@ class VectorizeDB:
 
         Returns:
             list: List of relevant documents.
-        
+
         Raises:
             TypeError: If the retriever object is not set.
         """

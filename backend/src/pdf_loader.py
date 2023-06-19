@@ -21,9 +21,12 @@ class PdfToTextLoader:
         self.pdf_path = pdf_path
         self.file_name = os.path.basename(self.pdf_path)
 
-    def load_single_pdf(self) -> None:
+    def load_single_pdf(self) -> list:
         """
-            Loads pdf file and saves it as text file
+            Loads pdf file and saves it as list of strings
+
+            Returns:
+                list: list of texts from pdf
         """
 
         pdf = PyPDFLoader(self.pdf_path)
@@ -40,6 +43,12 @@ class PdfToTextLoader:
     def text_to_docs(self, text: str) -> list:
         """
             Converts a string or list of strings to a list of Documents with metadata.
+
+            Args:
+                text (str|list): string or list of strings from pdf
+            
+            Returns:
+                list: list of chunked Document
         """
 
         if isinstance(text, str):
@@ -63,11 +72,10 @@ class PdfToTextLoader:
             chunks = text_splitter.split_text(doc.page_content)
             for i, chunk in enumerate(chunks):
                 doc = Document(
-                    page_content=chunk, metadata={"file":self.pdf_path,"page": doc.metadata["page"], "chunk": i}
+                    page_content=chunk, metadata={"file": self.pdf_path, "page": doc.metadata["page"], "chunk": i}
                 )
 
                 # Add sources a metadata
                 doc.metadata["source"] = f"File:{self.file_name} Page:{doc.metadata['page']} Part:{doc.metadata['chunk']}."
                 doc_chunks.append(doc)
         return doc_chunks
-    

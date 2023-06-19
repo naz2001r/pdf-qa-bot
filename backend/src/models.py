@@ -5,12 +5,14 @@ try:
 except ImportError:
     from backend.src.constants import file_name, db_name
 
+
 class OpenAPIBaseModel(BaseModel):
     """
     Base class for OpenAPI models.
     """
 
     openai_key: str
+
 
 class PDFObject(OpenAPIBaseModel):
     """
@@ -19,6 +21,7 @@ class PDFObject(OpenAPIBaseModel):
 
     file_name: str = file_name
     db_name: str = db_name
+
 
 class QueryObject(OpenAPIBaseModel):
     """

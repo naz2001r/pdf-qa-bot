@@ -1,15 +1,13 @@
 from fastapi import FastAPI
 try:
-    from src.models import *
     from src.routers.chatbot import chatbot_router
-except:
-    from backend.src.models import *
+except ImportError:
     from backend.src.routers.chatbot import chatbot_router
 
 app = FastAPI(
     title="PDF Chatbot App API",
     description="""FastAPI documentation for PDF Chatbot App""",
-    contact ={
+    contact = {
         'name': 'Demo App',
         'url': 'http://localhost:8501'
     },
@@ -24,7 +22,9 @@ tags_metadata = [
     }
 ]
 
+
+# TODO: delete when correct tests will be added
 @app.get("/example")
 async def example():
-    #print(os.environ['TEST_SECRET']) # now not in env var
+    # print(os.environ['TEST_SECRET']) # now not in env var
     return {"message": 'Hello'}
