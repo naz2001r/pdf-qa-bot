@@ -24,7 +24,7 @@ def app():
     # Create a layout with two columns: sidebar and file upload window
     with st.sidebar:
         st.session_state.openai_api_key = st.text_input(
-            'OpenAI API Key', 
+            'OpenAI API Key',
             key='chatbot_api_key',
             type='password'
             )
@@ -33,17 +33,15 @@ def app():
         # TODO: add logging
         if st.session_state.openai_api_key:
             uploaded_file = st.file_uploader(
-                "Upload a PDF file", 
+                "Upload a PDF file",
                 type="pdf",
                 accept_multiple_files=False
             )
 
-            if (
-                uploaded_file and
-                st.session_state.current_file != uploaded_file.name
-                ):
+            if  uploaded_file and \
+                    st.session_state.current_file != uploaded_file.name:
                 # Process uploaded PDF file
-                r = requests.post(
+                requests.post(
                     "http://backend_llm_pdf:8000/dump_pdf",
                     files={
                         'pdf_bytes': (
