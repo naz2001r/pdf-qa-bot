@@ -3,41 +3,102 @@ import pickle
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.faiss import FAISS
 
+
 class VectorizeDB:
     """
-        A class for vectorizing datasets.
+    A class for vectorizing datasets.
     """
-    def __init__(self, openai_key=""):
+
+    def __init__(self, openai_key: str):
+        """
+        Initialize a VectorizeDB object.
+
+        Args:
+            openai_key (str): OpenAI API key (default is an empty string).
+        """
+
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_key)
         self.__db = None
-        self.__retriver = None
+        self.__retriever = None
 
-    def vectorize(self, pages:list, extend=False) -> None:
+    def vectorize(self, pages: list, extend=False) -> None:
+        """
+        Vectorize a list of pages from pdf files and create a vector database.
+
+        Args:
+            pages (list): List of pages to vectorize.
+            extend (bool): If True, extend the existing database with new pages.
+                           If False, create a new database (default is False).
+        """
+
         if self.__db is not None and extend:
             db_new = FAISS.from_documents(pages, self.embeddings)
             self.__db = self.__db.merge_from(db_new)
-
         else:
             self.__db = FAISS.from_documents(pages, self.embeddings)
-    
-    @property
-    def retriver(self) -> object:
-        return self.__retriver
-    
-    @retriver.setter
-    def retriver(self, k:int = 5) -> None:
-        if not isinstance(k, int):
-            raise TypeError(f"Type {type(k)} is not suported for number of query output `k`")
-        self.__retriver = self.__db.as_retriever(search_kwargs={"k": k})
 
-    def query(self, text:str) -> list:
-        if self.retriver:
-            return self.retriver.get_relevant_documents(text)
-        raise TypeError('Please set retriver before calling it.')
-    
+    @property
+    def retriever(self) -> object:
+        """
+        Get the current retriever object.
+
+        Returns:
+            object: Retriever object.
+        """
+
+        return self.__retriever
+
+    @retriever.setter
+    def retriever(self, k: int = 5) -> None:
+        """
+        Set the retriever object with the specified number of query output.
+
+        Args:
+            k (int): Number of query output (default is 5).
+        """
+
+        if not isinstance(k, int):
+            raise TypeError(f"Type {type(k)} is not supported for the number of query output `k`")
+        self.__retriever = self.__db.as_retriever(search_kwargs={"k": k})
+
+    def query(self, text: str) -> list:
+        """
+        Query the vector database to retrieve relevant documents.
+
+        Args:
+            text (str): Text to query.
+
+        Returns:
+            list: List of relevant documents.
+        
+        Raises:
+            TypeError: If the retriever object is not set.
+        """
+
+        if self.retriever:
+            return self.retriever.get_relevant_documents(text)
+        raise TypeError('Please set retriever before calling it.')
+
     @classmethod
     def load_db(cls, file_name: str) -> object:
+        """
+        Load a VectorizeDB object from a pickle file.
+
+        Args:
+            file_name (str): Name of the pickle file.
+
+        Returns:
+            object: Loaded VectorizeDB object.
+        """
+
         return pickle.load(open(file_name, 'rb'))
-    
+
     def dump_db(self, file_name: str) -> None:
+        """
+        Dump the VectorizeDB object to a pickle file.
+
+        Args:
+            file_name (str): Name of the pickle file.
+        """
+
         pickle.dump(self, open(file_name, 'wb'))
