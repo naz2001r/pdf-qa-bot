@@ -7,7 +7,7 @@ except ImportError:
 app = FastAPI(
     title="PDF Chatbot App API",
     description="""FastAPI documentation for PDF Chatbot App""",
-    contact = {
+    contact={
         'name': 'Demo App',
         'url': 'http://localhost:8501'
     },

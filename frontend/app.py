@@ -38,7 +38,7 @@ def app():
                 accept_multiple_files=False
             )
 
-            if  uploaded_file and \
+            if uploaded_file and \
                     st.session_state.current_file != uploaded_file.name:
                 # Process uploaded PDF file
                 requests.post(
