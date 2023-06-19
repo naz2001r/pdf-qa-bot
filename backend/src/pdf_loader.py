@@ -46,7 +46,7 @@ class PdfToTextLoader:
 
             Args:
                 text (str|list): string or list of strings from pdf
-            
+
             Returns:
                 list: list of chunked Document
         """
