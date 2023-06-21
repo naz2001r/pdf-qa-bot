@@ -21,10 +21,3 @@ tags_metadata = [
         'descriptions': ' PDF Chatbot for answering to the questions, which releated to PDF files.'
     }
 ]
-
-
-# TODO: delete when correct tests will be added
-@app.get("/example")
-async def example():
-    # print(os.environ['TEST_SECRET']) # now not in env var
-    return {"message": 'Hello'}
