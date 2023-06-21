@@ -1,4 +1,4 @@
-import os, io
+import os
 import pytest
 from fastapi.testclient import TestClient
 from backend.app import app as backend_app
@@ -19,9 +19,9 @@ def sample_pdf_path():
 
 @pytest.mark.dependency()
 def test_dump_pdf(sample_pdf_path):
-    with open(sample_pdf_path, 'rb') as file:
+    with open("tests/test_data/sample.pdf", 'rb') as file:
         pdf_bytes = file.read()
-    
+
     files = {
         "pdf_bytes": ("sample.pdf", pdf_bytes, "application/pdf")
     }
@@ -43,7 +43,7 @@ def test_create_vec_db(openai_key):
 
 
 @pytest.mark.dependency(depends=["test_dump_pdf", "test_create_vec_db"])
-def test_get_answer():
+def test_get_answer(openai_key):
     data = {
         "openai_key": openai_key,
         "db_path": "./db/vector_db.pkl",
