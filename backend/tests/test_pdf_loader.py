@@ -1,15 +1,12 @@
+import os
 import pytest
 from langchain.docstore.document import Document
 from backend.src.pdf_loader import PdfToTextLoader
 
 
 @pytest.fixture
-def sample_pdf_path(tmp_path):
-    # Create a sample PDF file
-    pdf_path = tmp_path / "sample.pdf"
-    with open(pdf_path, "w") as file:
-        file.write("Sample PDF content")
-    return str(pdf_path)
+def sample_pdf_path():
+    return "tests/test_data/sample.pdf"
 
 
 def test_pdf_to_text_loader_init(sample_pdf_path):
