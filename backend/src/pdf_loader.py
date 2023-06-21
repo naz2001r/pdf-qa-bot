@@ -51,6 +51,7 @@ class PdfToTextLoader:
                 list: list of chunked Document
         """
 
+        assert isinstance(text, (str, list)), f"Type {type(text)} is not supported for `text`."
         if isinstance(text, str):
             # Take a single string as one page
             text = [text]

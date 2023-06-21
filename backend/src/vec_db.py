@@ -16,6 +16,7 @@ class VectorizeDB:
             openai_key (str): OpenAI API key (default is an empty string).
         """
 
+        assert isinstance(openai_key, str), "openai_key must be a string"
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_key)
         self.__db = None
         self.__retriever = None
@@ -30,6 +31,8 @@ class VectorizeDB:
                            If False, create a new database (default is False).
         """
 
+        assert isinstance(pages, list), "pages must be a list"
+        assert isinstance(extend, bool), "extend must be a boolean"
         if self.__db is not None and extend:
             db_new = FAISS.from_documents(pages, self.embeddings)
             self.__db = self.__db.merge_from(db_new)
@@ -56,6 +59,7 @@ class VectorizeDB:
             k (int): Number of query output (default is 5).
         """
 
+        assert isinstance(k, int), "k must be an integer"
         if not isinstance(k, int):
             raise TypeError(f"Type {type(k)} is not supported for the number of query output `k`")
         self.__retriever = self.__db.as_retriever(search_kwargs={"k": k})
@@ -74,6 +78,7 @@ class VectorizeDB:
             TypeError: If the retriever object is not set.
         """
 
+        assert isinstance(text, str), "text must be a string"
         if self.retriever:
             return self.retriever.get_relevant_documents(text)
         raise TypeError('Please set retriever before calling it.')
@@ -90,6 +95,7 @@ class VectorizeDB:
             object: Loaded VectorizeDB object.
         """
 
+        assert isinstance(file_name, str), "file_name must be a string"
         return pickle.load(open(file_name, 'rb'))
 
     def dump_db(self, file_name: str) -> None:
@@ -100,4 +106,5 @@ class VectorizeDB:
             file_name (str): Name of the pickle file.
         """
 
+        assert isinstance(file_name, str), "file_name must be a string"
         pickle.dump(self, open(file_name, 'wb'))
