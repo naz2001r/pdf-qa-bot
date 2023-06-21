@@ -64,7 +64,7 @@ def test_vectorize_db_retriever_setter(openai_key, sample_pages):
 def test_vectorize_db_retriever_setter_invalid_k(openai_key, sample_pages):
     vectorizer = VectorizeDB(openai_key)
     vectorizer.vectorize(sample_pages)
-    with pytest.raises(AssertionError):
+    with pytest.raises(TypeError):
         vectorizer.retriever = "invalid_k"
 
 
