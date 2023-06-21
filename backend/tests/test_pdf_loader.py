@@ -1,4 +1,3 @@
-import os
 import pytest
 from langchain.docstore.document import Document
 from backend.src.pdf_loader import PdfToTextLoader
