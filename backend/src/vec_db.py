@@ -59,7 +59,6 @@ class VectorizeDB:
             k (int): Number of query output (default is 5).
         """
 
-        assert isinstance(k, int), "k must be an integer"
         if not isinstance(k, int):
             raise TypeError(f"Type {type(k)} is not supported for the number of query output `k`")
         self.__retriever = self.__db.as_retriever(search_kwargs={"k": k})

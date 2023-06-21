@@ -83,7 +83,7 @@ def get_answer(data: QueryObject) -> dict:
 
     # Load the vector database
     vector_db = VectorizeDB.load_db(data.db_path)
-    vector_db.retriver = data.k
+    vector_db.retriever = data.k
 
     # Create PDF QA retrieval
     chain = RetrievalQAWithSourcesChain.from_chain_type(
@@ -92,6 +92,6 @@ def get_answer(data: QueryObject) -> dict:
             openai_api_key=data.openai_key
         ),
         chain_type="stuff",
-        retriever=vector_db.retriver
+        retriever=vector_db.retriever
     )
     return chain({"question": data.question}, return_only_outputs=data.return_only_outputs)
