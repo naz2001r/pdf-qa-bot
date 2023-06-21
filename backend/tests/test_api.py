@@ -48,7 +48,8 @@ def test_get_answer(openai_key):
         "openai_key": openai_key,
         "db_path": "./db/vector_db.pkl",
         "k": 3,
-        "question": "test_question"
+        "question": "test_question",
+        "return_only_outputs": True
     }
     response = backend_client.post("/get_answer", json=data)
     assert response.status_code == 200
