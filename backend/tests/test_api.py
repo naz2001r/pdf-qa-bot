@@ -17,20 +17,24 @@ def sample_pdf_path():
     return "tests/test_data/sample.pdf"
 
 
+@pytest.mark.dependency()
 def test_dump_pdf(sample_pdf_path):
     with open(sample_pdf_path, 'rb') as file:
-        files = {
-            "pdf_bytes": ("sample.pdf", file.read(), "application/pdf")
-        }
-        response = backend_client.post("/dump_pdf", files=files)
-        assert response.status_code == 200
-        assert response.json().get("Status") == 200
+        pdf_bytes = file.read()
+    
+    files = {
+        "pdf_bytes": ("sample.pdf", pdf_bytes, "application/pdf")
+    }
+    response = backend_client.post("/dump_pdf", files=files)
+    assert response.status_code == 200
+    assert response.json().get("Status") == 200
 
 
+@pytest.mark.dependency(depends=["test_dump_pdf"])
 def test_create_vec_db(openai_key):
     data = {
         "openai_key": openai_key,
-        "file_name": "files/sample.pdf",
+        "file_name": "sample.pdf",
         "db_name": "vector_db.pkl"
     }
     response = backend_client.post("/create_vec_db", json=data)
@@ -38,6 +42,7 @@ def test_create_vec_db(openai_key):
     assert "DB_PATH" in response.json()
 
 
+@pytest.mark.dependency(depends=["test_dump_pdf", "test_create_vec_db"])
 def test_get_answer():
     data = {
         "openai_key": openai_key,
