@@ -1,6 +1,11 @@
 import pickle
-from langchain.embeddings.openai import OpenAIEmbeddings
+import logging
 from langchain.vectorstores.faiss import FAISS
+from langchain.embeddings.openai import OpenAIEmbeddings
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 
 class VectorizeDB:
@@ -33,6 +38,8 @@ class VectorizeDB:
 
         assert isinstance(pages, list), "pages must be a list"
         assert isinstance(extend, bool), "extend must be a boolean"
+
+        logging.info("Vectorizing pages...")
         if self.__db is not None and extend:
             db_new = FAISS.from_documents(pages, self.embeddings)
             self.__db = self.__db.merge_from(db_new)
@@ -61,6 +68,8 @@ class VectorizeDB:
 
         if not isinstance(k, int):
             raise TypeError(f"Type {type(k)} is not supported for the number of query output `k`")
+        
+        logging.info(f"Setting retriever with k={k}...")
         self.__retriever = self.__db.as_retriever(search_kwargs={"k": k})
 
     def query(self, text: str) -> list:
@@ -78,7 +87,9 @@ class VectorizeDB:
         """
 
         assert isinstance(text, str), "text must be a string"
+
         if self.retriever:
+            logging.info(f"Querying with text: {text}")
             return self.retriever.get_relevant_documents(text)
         raise TypeError('Please set retriever before calling it.')
 
@@ -95,6 +106,7 @@ class VectorizeDB:
         """
 
         assert isinstance(file_name, str), "file_name must be a string"
+        logging.info(f"Loading VectorizeDB from file: {file_name}")
         return pickle.load(open(file_name, 'rb'))
 
     def dump_db(self, file_name: str) -> None:
@@ -106,4 +118,5 @@ class VectorizeDB:
         """
 
         assert isinstance(file_name, str), "file_name must be a string"
+        logging.info(f"Dumping VectorizeDB to file: {file_name}")
         pickle.dump(self, open(file_name, 'wb'))

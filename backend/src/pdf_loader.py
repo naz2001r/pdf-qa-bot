@@ -1,34 +1,39 @@
+import logging
 import os
 import re
 from langchain.docstore.document import Document
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
 
 class PdfToTextLoader:
     """
-        Class for loading pdfs and saving them as texts
+    Class for loading pdfs and saving them as texts
     """
 
     def __init__(self, pdf_path: str) -> None:
         """
-            Args:
-                pdf_path (str): path to pdf file
+        Args:
+            pdf_path (str): path to pdf file
         """
 
         if not isinstance(pdf_path, str):
-            raise TypeError(f"Type {type(pdf_path)} is not suported for `pdf_path`.")
+            raise TypeError(f"Type {type(pdf_path)} is not supported for `pdf_path`.")
         self.pdf_path = pdf_path
         self.file_name = os.path.basename(self.pdf_path)
 
     def load_single_pdf(self) -> list:
         """
-            Loads pdf file and saves it as list of strings
+        Loads pdf file and saves it as list of strings
 
-            Returns:
-                list: list of texts from pdf
+        Returns:
+            list: list of texts from pdf
         """
 
+        logging.info(f"Loading PDF: {self.pdf_path}")
         pdf = PyPDFLoader(self.pdf_path)
         output = []
         for page in pdf.load_and_split():
@@ -42,13 +47,13 @@ class PdfToTextLoader:
 
     def text_to_docs(self, text: str) -> list:
         """
-            Converts a string or list of strings to a list of Documents with metadata.
+        Converts a string or list of strings to a list of Documents with metadata.
 
-            Args:
-                text (str|list): string or list of strings from pdf
+        Args:
+            text (str|list): string or list of strings from pdf
 
-            Returns:
-                list: list of chunked Document
+        Returns:
+            list: list of chunked Document
         """
 
         assert isinstance(text, (str, list)), f"Type {type(text)} is not supported for `text`."
@@ -79,4 +84,6 @@ class PdfToTextLoader:
                 # Add sources a metadata
                 doc.metadata["source"] = f"File:{self.file_name} Page:{doc.metadata['page']} Part:{doc.metadata['chunk']}."
                 doc_chunks.append(doc)
+
+        logging.info(f"Converted PDF to {len(doc_chunks)} document chunks.")
         return doc_chunks
