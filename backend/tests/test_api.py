@@ -34,7 +34,7 @@ def test_dump_pdf(sample_pdf_path):
 def test_create_vec_db(openai_key):
     data = {
         "openai_key": openai_key,
-        "file_name": "sample.pdf",
+        "file_name": ["sample.pdf"],
         "db_name": "vector_db.pkl"
     }
     response = backend_client.post("/create_vec_db", json=data)
