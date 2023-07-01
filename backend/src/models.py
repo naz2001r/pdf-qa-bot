@@ -19,7 +19,7 @@ class PDFObject(OpenAPIBaseModel):
     Represents a PDF object with associated file name and database name.
     """
 
-    file_name: str = file_name
+    file_names: list[str] = [file_name]
     db_name: str = db_name
 
 
