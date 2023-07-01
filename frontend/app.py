@@ -29,11 +29,10 @@ class ChatbotApp:
         if 'user_input' not in st.session_state:
             st.session_state['user_input'] = None
 
-
     def process_uploaded_pdf(self, uploaded_files: list[st.runtime.uploaded_file_manager.UploadedFile]) -> None:
         """
         Process the uploaded PDF file, dump it, and create a vector DB.
-        
+
         Args:
             uploaded_files (UploadedFile): The uploaded PDF files.
         """
@@ -64,7 +63,6 @@ class ChatbotApp:
 
         st.session_state.current_files = files_names
         st.session_state.user_input = None
-
 
     def app(self) -> None:
         """
@@ -103,7 +101,6 @@ class ChatbotApp:
             st.session_state.messages.append({"role": "assistant", "content": answer})
             message(answer, key="answer", allow_html=True)
 
-
     def display_sidebar(self) -> None:
         """
         Display the sidebar containing the OpenAI API key input and PDF file uploader.
@@ -123,7 +120,6 @@ class ChatbotApp:
 
             if uploaded_files and st.session_state.current_files != sorted([file.name for file in uploaded_files]):
                 self.process_uploaded_pdf(uploaded_files)
-
 
     def get_chatbot_answer(self) -> requests.Response:
         """
