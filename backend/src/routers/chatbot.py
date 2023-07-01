@@ -55,7 +55,7 @@ def create_vec_db(data: PDFObject) -> dict:
     for file_name in data.file_names:
         pdf_loader = PdfToTextLoader(os.path.join(ROOT_DATA, file_name))
         pdf_texts = pdf_loader.load_single_pdf()
-        pages.extend(pdf_loader.text_to_docs(pdf_texts))  
+        pages.extend(pdf_loader.text_to_docs(pdf_texts))
 
     # Create folder for database
     os.makedirs(ROOT_DB, exist_ok=True)

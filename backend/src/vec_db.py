@@ -68,7 +68,7 @@ class VectorizeDB:
 
         if not isinstance(k, int):
             raise TypeError(f"Type {type(k)} is not supported for the number of query output `k`")
-        
+
         logging.info(f"Setting retriever with k={k}...")
         self.__retriever = self.__db.as_retriever(search_kwargs={"k": k})
 
