@@ -41,7 +41,7 @@ def dump_pdf(pdf_bytes: UploadFile = File(None)) -> dict:
 @chatbot_router.post("/create_vec_db", tags=['Chatbot'])
 def create_vec_db(data: PDFObject) -> dict:
     """
-    Create a vector database from a PDF file.
+    Create a vector database from a PDF files.
 
     Args:
         data (PDFObject): Object containing PDF information.
@@ -51,9 +51,11 @@ def create_vec_db(data: PDFObject) -> dict:
     """
 
     # PDF preprocessing
-    pdf_loader = PdfToTextLoader(os.path.join(ROOT_DATA, data.file_name))
-    pdf_texts = pdf_loader.load_single_pdf()
-    pages = pdf_loader.text_to_docs(pdf_texts)
+    pages = []
+    for file_name in data.file_names:
+        pdf_loader = PdfToTextLoader(os.path.join(ROOT_DATA, file_name))
+        pdf_texts = pdf_loader.load_single_pdf()
+        pages.extend(pdf_loader.text_to_docs(pdf_texts))  
 
     # Create folder for database
     os.makedirs(ROOT_DB, exist_ok=True)
